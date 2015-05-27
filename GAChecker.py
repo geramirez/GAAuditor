@@ -6,9 +6,9 @@ from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 class GAChecker:
 
     def __init__(self):
-        d = DesiredCapabilities.CHROME
+        d = DesiredCapabilities.PHANTOMJS
         d['loggingPrefs'] = {'browser': 'ALL'}
-        self.browser = webdriver.Chrome(desired_capabilities=d)
+        self.browser = webdriver.PhantomJS(desired_capabilities=d)
 
     def get_url(self, url):
         """ Get URL fron browser """

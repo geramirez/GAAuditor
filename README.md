@@ -6,11 +6,11 @@ A script that collects urls from Cloud Foundry and extracts the version of GA ru
 ```bash
 pip install -r requirements.txt
 ```
-##### Install the Chrome Selenium Driver MAC OS
-1. Download the driver from [here](https://code.google.com/p/selenium/wiki/ChromeDriver)
-2. Place the ChromeDriver into the `/usr/local/bin` dir
-
-[Video tutorial](https://www.youtube.com/watch?v=XFVXaC41Xac)
+##### Install PhantomJS Headless Browser
+Mac with brew
+```bash
+brew install phantomjs
+```
 
 ## Usage
 Set the following env variables
