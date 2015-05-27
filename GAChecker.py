@@ -18,19 +18,27 @@ class GAChecker:
     def run_checker_script(self):
         """ Runs the GA checker script """
         self.browser.execute_script("""
-        if (typeof ga === "function") {
-            console.log('ga_version: Google Analytics Recent');
-            console.log('ga_ua_code: ' + ga.getAll()[0].get('trackingId'));
-        }
-        else if (typeof _sendPageview === "function") {
-            console.log('ga_version: Google Analytics Old');
-            console.log('ga_ua_code: ' + oCONFIG.GWT_UAID[0]);
-        }
-        else {
-            console.log('ga_version: No Google Analytics');
-            console.log('ga_ua_code: No UA Code');
-        }
+if (typeof ga === "function") {
+    console.log('ga_version: Google Analytics Universal');
+    console.log('ga_ua_code: ' + ga.getAll()[0].get('trackingId'));
+    console.log('ga_ua_anon: ' + ga.getAll()[0].get('anonymizeIp'));
+}
+else if (typeof _sendPageview === "function") {
+    console.log('ga_version: Google Analytics Legacy');
+    console.log('ga_ua_code: ' + oCONFIG.GWT_UAID[0]);
+    console.log('ga_ua_anon: ' + oCONFIG.ANONYMIZE_IP);
+}
+else {
+    console.log('ga_version: No Google Analytics');
+    console.log('ga_ua_code: No UA Code');
+    console.log('ga_ua_anon: No UA Code');
+
+}
         """)
+
+    def clean_message(self, element, message):
+        """ Cleans the message log """
+        return message.split(element)[-1].replace(' (:)', '').strip(': ')
 
     def parse_log(self):
         """ Check the log for the GA version """
@@ -38,10 +46,11 @@ class GAChecker:
         for item in self.browser.get_log('browser'):
             message = item.get('message', '')
             if "ga_version:" in message:
-                data['ga_version'] = message.split('ga_version: ')[-1]
-            if "ga_ua_code:" in message:
-                data['ga_ua_code'] = message.split('ga_ua_code: ')[-1]
-
+                data['ga_version'] = self.clean_message('ga_version', message)
+            elif "ga_ua_code:" in message:
+                data['ga_ua_code'] = self.clean_message('ga_ua_code', message)
+            elif "ga_ua_anon" in message:
+                data['ga_ua_anon'] = self.clean_message('ga_ua_anon', message)
         return data
 
     def check_for_ga(self, url):
@@ -59,5 +68,4 @@ if __name__ == "__main__":
     print(checker.check_for_ga('https://open.foia.gov'))
     print(checker.check_for_ga('http://iipdigital.usembassy.gov/'))
     print(checker.check_for_ga('http://quotas-db.cf.18f.us'))
-
     checker.quit_browser()
