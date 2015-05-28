@@ -21,18 +21,20 @@ class GAChecker:
 if (typeof ga === "function") {
     console.log('ga_version: Google Analytics Universal');
     console.log('ga_ua_code: ' + ga.getAll()[0].get('trackingId'));
-    console.log('ga_ua_anon: ' + ga.getAll()[0].get('anonymizeIp'));
+    console.log('ga_anon_ip: ' + ga.getAll()[0].get('anonymizeIp'));
+    console.log('ga_force_ssl: ' + ga.getAll()[0].get('forceSSL'));
 }
 else if (typeof _sendPageview === "function") {
     console.log('ga_version: Google Analytics Legacy');
-    console.log('ga_ua_code: ' + oCONFIG.GWT_UAID[0]);
-    console.log('ga_ua_anon: ' + oCONFIG.ANONYMIZE_IP);
+    console.log('ga_ua_code: ' + _gat._getTrackerByName()._getAccount());
+    console.log('ga_anon_ip: Google Analytics Legacy');
+    console.log('ga_force_ssl: Google Analytics Legacy');
 }
 else {
     console.log('ga_version: No Google Analytics');
-    console.log('ga_ua_code: No UA Code');
-    console.log('ga_ua_anon: No UA Code');
-
+    console.log('ga_ua_code: No Google Analytics');
+    console.log('ga_anon_ip: No Google Analytics');
+    console.log('ga_force_ssl: No Google Analytics');
 }
         """)
 
@@ -49,8 +51,11 @@ else {
                 data['ga_version'] = self.clean_message('ga_version', message)
             elif "ga_ua_code:" in message:
                 data['ga_ua_code'] = self.clean_message('ga_ua_code', message)
-            elif "ga_ua_anon" in message:
-                data['ga_ua_anon'] = self.clean_message('ga_ua_anon', message)
+            elif "ga_anon_ip" in message:
+                data['ga_anon_ip'] = self.clean_message('ga_anon_ip', message)
+            elif "ga_force_ssl" in message:
+                data['ga_force_ssl'] = self.clean_message(
+                    'ga_force_ssl', message)
         return data
 
     def check_for_ga(self, url):
