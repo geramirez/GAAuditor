@@ -1,4 +1,6 @@
-*.py~
 *__pycache__
-.env
-ghostdriver.log
+*.env
+ghostdriver.logpyc
+*~
+*.pyc
+*.log

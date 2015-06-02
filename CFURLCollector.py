@@ -1,6 +1,16 @@
 import os
 from CloudFoundry import CloudFoundry
 
+"""
+A script for collecting CF URLs
+### Quick Start
+1. Set the following env variables
+* CF_URL
+* CF_USERNAME
+* CF_PASSWORD
+2. `python CFURLCollector.py`
+"""
+
 
 class CFURLCollector:
     def __init__(self):
@@ -37,5 +47,6 @@ class CFURLCollector:
                 yield domain
 
 if __name__ == "__main__":
-    collector = CFURLCollector()
-    collector.get_urls()
+    api = CFURLCollector()
+    for url in api.get_urls():
+        print(url)
