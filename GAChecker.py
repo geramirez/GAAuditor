@@ -24,7 +24,7 @@ if (typeof ga === "function") {
     console.log('ga_anon_ip: ' + ga.getAll()[0].get('anonymizeIp'));
     console.log('ga_force_ssl: ' + ga.getAll()[0].get('forceSSL'));
 }
-else if (typeof _sendPageview === "function") {
+else if (typeof _gat === "object") {
     console.log('ga_version: Google Analytics Legacy');
     console.log('ga_ua_code: ' + _gat._getTrackerByName()._getAccount());
     console.log('ga_anon_ip: Google Analytics Legacy');
